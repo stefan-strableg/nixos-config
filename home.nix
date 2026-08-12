@@ -116,7 +116,7 @@
 
   services.ssh-agent = {
     enable = true;
-  }
+  };
 
   services.syncthing = {
     enable = true;
