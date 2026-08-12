@@ -26,5 +26,10 @@ if [ -n "$no_sync" ] && ! git pull; then
     echo "Failed pulling. Exit."
     exit
 fi
+
 git add .
 git commit -m "$message"
+
+if [ -n "$no_sync"]; then
+    git push
+fi
