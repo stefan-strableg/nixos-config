@@ -12,50 +12,33 @@
     nur.url = "github:nix-community/NUR";
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, nur, ... }: {
-    nixosConfigurations = {
-      thinks = nixpkgs.lib.nixosSystem {
+  outputs = inputs@{ nixpkgs, home-manager, ... }:
+  let
+    mkHost = modules:
+      nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
 
-        modules = [
-          ./configuration.nix
+        specialArgs = {
+          inherit inputs;
+        };
 
-          {
-            nixpkgs.overlays = [
-              nur.overlays.default
-            ];
-          }
-
-          home-manager.nixosModules.home-manager
-
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-
-            home-manager.users.stefan = import ./home.nix;
-
-            home-manager.extraSpecialArgs = { 
-              inherit inputs;
-            };
-          }
-        ];
+        modules = modules;
       };
-      # pc = nixpkgs.lib.nixosSystem {
-      #   system = "x86_64-linux";
+  in
+  {
+    nixosConfigurations = {
+      thinks = mkHost [
+        ./hosts/thinks/configuration.nix
+        ./users/stefan/configuration.nix
 
-      #   modules = [
-      #     ./configuration.nix
+        ./modules/home-manager.nix
+        ./modules/nur.nix
+      ];
 
-      #     home-manager.nixosModules.home-manager
-
-      #     {
-      #       home-manager.useGlobalPkgs = true;
-      #       home-manager.useUserPackages = true;
-
-      #       home-manager.users.stefan = import ./home.nix;
-      #     }
-      #   ];
-      # };
+      # pc = mkHost [
+      #   ./hosts/pc/configuration.nix
+      #   ./users/stefan/configuration.nix
+      # ];
     };
   };
 }
