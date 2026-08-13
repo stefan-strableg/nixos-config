@@ -45,6 +45,15 @@
     LC_TIME = "de_AT.UTF-8";
   };
 
+  services.logind.settings.Login = {
+    HandlePowerKey = "hibernate";
+  };
+
+  services.tailscale = {
+    enable = true;
+    useRoutingFeatures = "both";
+  };
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 

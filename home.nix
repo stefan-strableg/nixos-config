@@ -84,8 +84,14 @@
         force = true;
         settings = [
           {
-            name = "NixOS Search";
-            url = "https://search.nixos.org";
+            name = "Nix";
+            toolbar = true;
+            bookmarks = [
+              {
+                name = "NixOS Search";
+                url = "https://search.nixos.org";
+              }
+            ];
           }
         ];
       };
@@ -96,10 +102,10 @@
         "keepassxc-browser@keepassxc.org" = {
           installation_mode = "force_installed";
         };
+      };
 
       OverrideFirstRunPage = "";
       OverridePostUpdatePage = "";
-      };
     };
   };
 
@@ -112,6 +118,20 @@
         IdentityFile = "~/secrets/shared_key";
         AddKeysToAgent = "yes";
       };
+    };
+  };
+
+  programs.obsidian = {
+    enable = true;
+    cli.enable = true;
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "text/html" = "firefox.desktop";
+      "x-scheme-handler/http" = "firefox.desktop";
+      "x-scheme-handler/https" = "firefox.desktop";
     };
   };
 
