@@ -6,7 +6,6 @@
 
 while getopts ":dsm:nu" opt; do
   case ${opt} in
-    d) dry=true; echo "Dry run." ;;
     s) no_sync=true; echo "Not touching remote." ;;
     m) user_message="$OPTARG" ;;
     u) update=true; ;;
@@ -27,18 +26,15 @@ if [ -n "$update" ]; then
         echo "Update failed, aborting."
         exit 1
     fi
-    if [ -zn "$dry" ]; then
-        echo "Commit message would be \"Generation $generation: Update inputs\""
-        exit
-    else
-        if ! git commit -m "Generation $generation: Update inputs"; then
-            echo "Commit failed, aborting."
-            exit 1
-        fi
+    if ! git commit -m "Generation $generation: Update inputs"; then
+        echo "Commit failed, aborting."
+        exit 1
     fi
     if [ -z "$no_sync" ]; then
         git push
     fi
+    echo "Finished updating."
+    exit
 fi
 
 if [ -z "$user_message" ] &&  [ -z "$no_message" ]; then
@@ -49,11 +45,6 @@ message="Generation $generation"
 
 if [ -n "$user_message" ]; then
     message="$message: $user_message"
-fi
-
-if [ -n "$dry" ]; then
-    echo "Commit message would be \"$message\"."
-    exit
 fi
 
 git add .
