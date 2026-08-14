@@ -24,7 +24,6 @@
   home.shellAliases = {
     nxr = "sudo nixos-rebuild switch --flake ~/nixos-config#\$HOSTNAME";
     nxu = "nix flake update --flake ~/nixos-config";
-    nxs = "firefox 'https://search.nixos.org' 'https://home-manager-options.extranix.com'";
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
