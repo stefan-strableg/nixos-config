@@ -19,5 +19,9 @@
       command = "code /home/stefan/nixos-config";
       binding = "<Super>x";
     };
+
+    "org/gnome/shell" = {
+      favorite-apps = [];
+    };
   };
 }
