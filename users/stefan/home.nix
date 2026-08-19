@@ -22,6 +22,8 @@
     bash
     jq
     gimp
+    nmap
+    netcat
   ];
 
   home.shellAliases = {
