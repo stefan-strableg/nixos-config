@@ -24,6 +24,16 @@
       userSettings = {
         "editor.inlayHints.enabled" = "off";
       };
+      keybindings = [
+        {
+          key = "alt+left";
+          command = "workbench.action.navigateBack";
+        }
+        {
+          key = "alt+right";
+          command = "workbench.action.navigateForward";
+        }
+    ];
     };
   };
 
