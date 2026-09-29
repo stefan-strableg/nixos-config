@@ -19,6 +19,7 @@
       extensions = with pkgs.vscode-extensions; [
         bbenoist.nix
         jnoortheen.nix-ide
+        llvm-vs-code-extensions.vscode-clangd
       ];
     };
   };
@@ -27,6 +28,9 @@
     enable = true;
     settings = {
       Browser = {
+        Enabled = true;
+      };
+      SSHAgent = {
         Enabled = true;
       };
       General = {
