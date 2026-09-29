@@ -21,6 +21,9 @@
         jnoortheen.nix-ide
         llvm-vs-code-extensions.vscode-clangd
       ];
+      userSettings = {
+        "editor.inlayHints.enabled" = "off";
+      };
     };
   };
 

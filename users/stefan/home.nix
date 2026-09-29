@@ -24,6 +24,8 @@
     gimp
     nmap
     netcat
+    clang
+    clang-tools
   ];
 
   home.shellAliases = {
