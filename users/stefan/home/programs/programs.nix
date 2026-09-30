@@ -23,6 +23,7 @@
       ];
       userSettings = {
         "editor.inlayHints.enabled" = "off";
+        "workbench.colorTheme" = "Dark Modern";
       };
       keybindings = [
         {
