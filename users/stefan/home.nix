@@ -26,6 +26,7 @@
     netcat
     clang
     clang-tools
+    htop
   ];
 
   home.shellAliases = {
