@@ -95,13 +95,6 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-
-    settings = {
-      "*" = {
-        IdentityFile = "~/secrets/shared_key";
-        AddKeysToAgent = "yes";
-      };
-    };
   };
 
   programs.obsidian = {
