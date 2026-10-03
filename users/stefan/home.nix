@@ -44,4 +44,6 @@
       "x-scheme-handler/https" = "firefox.desktop";
     };
   };
+
+  xdg.autostart.enable = true;
 }
