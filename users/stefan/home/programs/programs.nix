@@ -44,6 +44,11 @@
     enable = true;
     autostart = true;
     settings = {
+      GUI = {
+        ShowTrayIcon = true;
+        MinimizeOnClose = true;
+        MinimizeToTray = true;
+      };
       Browser = {
         Enabled = true;
       };
