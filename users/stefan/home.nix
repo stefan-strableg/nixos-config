@@ -27,6 +27,9 @@
     clang
     clang-tools
     htop
+    openconnect
+    gti
+    sl
   ];
 
   home.shellAliases = {
