@@ -57,9 +57,7 @@
       };
       Security = {
         LockDatabaseIdle = false;
-      };
-      General = {
-        MinimizeAfterUnlock = true;
+        LockDatabaseScreenLock = false;
       };
     };
   };
