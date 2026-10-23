@@ -40,9 +40,18 @@
         exec ${pkgs.clang-tools}/bin/clangd \
           --query-driver=${pkgs.gcc}/bin/gcc,${pkgs.gcc}/bin/g++ "$@"
       '';
+      # Python packages to be installed in the devShell:
+      python = pkgs.python3.withPackages (ps: [
+        ps.duckdb
+        ps.gitpython
+        ps.pandas
+        ps.plotly
+        ps.streamlit
+        ps.tqdm
+      ]);
     in {
       devShells.${system}.default = pkgs.mkShell {
-        name = "slpw26g81";
+        name = "dev-shell";
 
         buildInputs = with pkgs; [
           # C/C++ development:
@@ -74,6 +83,12 @@
         shellHook = ''
           # Add the Clangd Wrapper
           export PATH=${gccClangdWrapper}/bin:$PATH
+          # Load Environment Variables from .envrc if it exists
+          if [ -f .envrc ]; then
+            set -a
+            source .envrc
+            set +a
+          fi
           echo "Nix Development Shell started successfully."
         '';
       };
