@@ -32,7 +32,7 @@
     nixosConfigurations = {
       thinks = mkHost [
         ./hosts/thinks/configuration.nix
-        ./users/stefan/configuration.nix
+        ./modules/stefan.nix
 
         ./modules/home-manager.nix
         ./modules/nur.nix
@@ -41,8 +41,8 @@
       wsl = mkHost [
         nixos-wsl.nixosModules.default
 
-	./hosts/wsl/configuration.nix
-        ./users/stefan/configuration.nix
+	      ./hosts/wsl/configuration.nix
+        ./modules/stefan-wsl.nix
 
         ./modules/home-manager.nix
         ./modules/nur.nix

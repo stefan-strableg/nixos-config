@@ -11,7 +11,14 @@
   imports = [];
 
   wsl.enable = true;
-  wsl.defaultUser = "nixos";
+  wsl.defaultUser = "stefan";
+
+
+  networking.hostName = "wsl";
+  networking.wireless.enable = lib.mkForce false;
+  networking.networkmanager.enable = lib.mkForce false;
+
+  systemd.services."getty@tty1".enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -1,13 +1,13 @@
-{ pkgs, ...}:
+{ ... }:
 
 {
   dconf.settings = {
-      "org/gnome/desktop/wm/keybindings" = {
-        switch-applications = [ ];
-        switch-windows = [ "<Alt>Tab" ];
-        switch-windows-backward = [ "<Alt><Shift>Tab" ];
-      };
-      
+    "org/gnome/desktop/wm/keybindings" = {
+      switch-applications = [ ];
+      switch-windows = [ "<Alt>Tab" ];
+      switch-windows-backward = [ "<Alt><Shift>Tab" ];
+    };
+
     "org/gnome/settings-daemon/plugins/media-keys" = {
       custom-keybindings = [
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/nix-config/"
@@ -20,8 +20,6 @@
       binding = "<Super>x";
     };
 
-    "org/gnome/shell" = {
-      favorite-apps = [];
-    };
+    "org/gnome/shell".favorite-apps = [ ];
   };
 }

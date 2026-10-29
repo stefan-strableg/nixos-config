@@ -1,18 +1,12 @@
-{
-  services.ssh-agent = {
-    enable = true;
-  };
+{ ... }:
 
+{
   services.syncthing = {
     enable = true;
     settings = {
       devices = {
-        homes = {
-          id = "T5BKMJ7-HDWMNUI-DYP7VR6-QKW4456-7CIB5FJ-KU3NRTB-O7EPYD2-7AABJAH";
-        };
-        s24s = {
-          id = "OS672XH-TUBGY6O-FHCDXXJ-DZJDMJB-JKIO5UM-O63CLBD-LDSX46K-PE5PWQC";
-        };
+        homes.id = "T5BKMJ7-HDWMNUI-DYP7VR6-QKW4456-7CIB5FJ-KU3NRTB-O7EPYD2-7AABJAH";
+        s24s.id = "OS672XH-TUBGY6O-FHCDXXJ-DZJDMJB-JKIO5UM-O63CLBD-LDSX46K-PE5PWQC";
       };
       folders = {
         secrets = {
