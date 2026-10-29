@@ -13,6 +13,13 @@
   wsl.enable = true;
   wsl.defaultUser = "stefan";
 
+  wsl.ssh-agent.enable = true;
+
+  programs.nix-ld.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    wget
+  ];
 
   networking.hostName = "wsl";
   networking.wireless.enable = lib.mkForce false;

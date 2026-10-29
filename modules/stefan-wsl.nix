@@ -13,7 +13,6 @@
       ./stefan/home/programs/git.nix
       ./stefan/home/programs/vscode.nix
       ./stefan/home/programs/ssh.nix
-      ./stefan/home/services/ssh-agent.nix
       ./stefan/home/services/syncthing.nix
     ];
   };
