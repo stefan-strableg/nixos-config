@@ -4,6 +4,9 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -12,7 +15,7 @@
     nur.url = "github:nix-community/NUR";
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, ... }:
+  outputs = inputs@{ nixpkgs, nixos-wsl, home-manager, ... }:
   let
     mkHost = modules:
       nixpkgs.lib.nixosSystem {
@@ -22,7 +25,7 @@
           inherit inputs;
         };
 
-        modules = modules;
+        modules = modules ++ [{ nixpkgs.config.allowUnfree = true; }];
       };
   in
   {
@@ -35,10 +38,15 @@
         ./modules/nur.nix
       ];
 
-      # pc = mkHost [
-      #   ./hosts/pc/configuration.nix
-      #   ./users/stefan/configuration.nix
-      # ];
+      wsl = mkHost [
+        nixos-wsl.nixosModules.default
+
+	./hosts/wsl/configuration.nix
+        ./users/stefan/configuration.nix
+
+        ./modules/home-manager.nix
+        ./modules/nur.nix
+      ];
     };
   };
 }

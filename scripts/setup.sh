@@ -1,51 +1,63 @@
 #!/usr/bin/env bash
-
-# This script is intended to be run once after pulling the repo
-
-# Authored by Stefan Strableg
-
 set -euo pipefail
 
-add_host_to_flake() {
-  local host="$1"
+# Intended to be run once after pulling the repo.
 
-  sed -i "/^      [a-zA-Z0-9_-]* = nixpkgs.lib.nixosSystem {/i\\
-      $host = nixpkgs.lib.nixosSystem {\\
-        system = \"x86_64-linux\";\\
-        modules = [];\\
-      };\\
-" flake.nix
-}
+REPO_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$REPO_DIR"
 
-# Set hostname, so correct flake will be picked
-read -p "Enter hostname for this device:" NEW_HOSTNAME
-sudo hostnamectl set-hostname "$NEW_HOSTNAME"
+read -r -p "Enter hostname for this device: " NEW_HOSTNAME
 
-# If this device was not set up until now
-if [ ! -d "./hosts/$NEW_HOSTNAME" ]; then
-    read -p "$NEW_HOSTNAME does not exist in config. Do you want to initialize it with the contents of /etc/nix? [y/N]" yn
-    if [ yn -eq "y" ]; then
-        mkdir ./hosts/$NEW_HOSTNAME -p
-        sudo cp /etc/nix/hardware-configuration.nix ./hosts/$NEW_HOSTNAME/hardware-configuration.nix
-        sudo cp /etc/nix/configuration.nix ./hosts/$NEW_HOSTNAME/configuration.nix
-        echo "Copied config."
-    else
-        echo "Didn't copy config."
-    fi
-    add_host_to_flake $NEW_HOSTNAME
+if [[ ! "$NEW_HOSTNAME" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+    echo "Invalid hostname."
+    exit 1
 fi
 
-# Initial build
-sudo nixos-rebuild switch --flake "~/nixos-config#$NEW_HOSTNAME"
+# Set hostname.
+sudo hostname "$NEW_HOSTNAME"
 
-# Setup Accounts
-echo "[1/2] Set up GNOME Online Accounts and close the window:"
-sleep 1
-gnome-control-center online-accounts >/dev/null 2>&1
+HOST_DIR="./hosts/$NEW_HOSTNAME"
+mkdir -p "$HOST_DIR"
 
-echo "[2/2] Log into Tailscale:"
-sudo tailscale up --accept-routes
+# Initialize host configuration if it doesn't exist.
+CONFIG_DIR="/etc/nixos"
 
-echo "Done!"
-read -p "Press any letter to log out of the GNOME Environment and log back in..."
-gnome-session-quit --logout --no-prompt
+if [[ ! -f "$HOST_DIR/hardware-configuration.nix" ]]; then
+  if [[ ! -f "$CONFIG_DIR/hardware-configuration.nix" ]]; then
+      echo "No hardware-configuration.nix found in $CONFIG_DIR."
+      echo "Skipping hardware configuration copy."
+  else
+      sudo cp "$CONFIG_DIR/hardware-configuration.nix" \
+	  "$HOST_DIR/hardware-configuration.nix"
+  fi
+else
+  echo "$HOST_DIR/hawrdware-configuration.nix already exists, keeping it."
+fi
+if [[ ! -f "$HOST_DIR/configuration.nix" ]]; then
+  if [[ -f "$CONFIG_DIR/configuration.nix" ]]; then
+      sudo cp "$CONFIG_DIR/configuration.nix" \
+	  "$HOST_DIR/configuration.nix"
+  else
+      touch "$HOST_DIR/configuration.nix"
+      echo "No configuration.nix found. Create the host configuration manually."
+  fi
+else
+  echo "$HOST_DIR/configuration.nix already exists, keeping it."
+fi
+# Ensure the host exists in the flake.
+if ! grep -Eq "^[[:space:]]*$NEW_HOSTNAME[[:space:]]*=" flake.nix; then
+    echo "Host '$NEW_HOSTNAME' is missing from flake.nix."
+    echo "Add a nixosConfigurations entry before rebuilding."
+    exit 1
+fi
+
+# Build and activate the configuration.
+sudo nixos-rebuild switch --flake "$REPO_DIR#$NEW_HOSTNAME"
+
+# Set up Tailscale.
+read -r -p "Log into Tailscale now? [y/N] " answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+    sudo tailscale up --accept-routes
+fi
+
+echo "Setup complete."
