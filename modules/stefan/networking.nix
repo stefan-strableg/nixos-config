@@ -26,21 +26,28 @@
 
     # Replace the gateway with your VPN endpoint before using this profile.
     # Credentials are intentionally not stored in the Nix configuration.
-    ensureProfiles.profiles.openconnect-example = {
+    ensureProfiles.profiles.tugraz = {
       connection = {
-        id = "OpenConnect example";
+        id = "TU Graz VPN";
         type = "vpn";
         autoconnect = false;
       };
 
       vpn = {
         service-type = "org.freedesktop.NetworkManager.openconnect";
-        data = {
-          gateway = "vpn.tugraz.at";
-          protocol = "anyconnect";
-          username = "xx8357";
-        };
+        gateway = "vpn.tugraz.at";
+        protocol = "anyconnect";
+        username = "xx8357";
+        useragent = "AnyConnect";
+        authtype = "password";
+      };
+
+      vpn-secrets = {
+        # If no dummy password is provided, nm will attempt to
+        # contact a nonexistent secret agent and fail
+        password = "dummy";
       };
     };
+
   };
 }

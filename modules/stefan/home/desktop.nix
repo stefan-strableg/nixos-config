@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   xdg.mimeApps = {
@@ -13,7 +13,7 @@
   xdg.autostart.enable = true;
 
   # Fix KeePassXC launching in background on gnome
-  home.packages = [
+  home.packages = with pkgs; [
     qgnomeplatform
   ];
   xdg.desktopEntries."org.keepassxc.KeePassXC" = {

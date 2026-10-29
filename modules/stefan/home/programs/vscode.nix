@@ -7,6 +7,7 @@
       extensions = with pkgs.vscode-extensions; [
         bbenoist.nix
         jnoortheen.nix-ide
+        ms-vscode-remote.remote-containers
       ];
       userSettings = {
         "editor.inlayHints.enabled" = "off";
