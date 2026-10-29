@@ -15,38 +15,45 @@
     nur.url = "github:nix-community/NUR";
   };
 
-  outputs = inputs@{ nixpkgs, nixos-wsl, home-manager, ... }:
-  let
-    mkHost = modules:
-      nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+  outputs =
+    inputs@{
+      nixpkgs,
+      nixos-wsl,
+      home-manager,
+      ...
+    }:
+    let
+      mkHost =
+        modules:
+        nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
 
-        specialArgs = {
-          inherit inputs;
+          specialArgs = {
+            inherit inputs;
+          };
+
+          modules = modules ++ [ { nixpkgs.config.allowUnfree = true; } ];
         };
+    in
+    {
+      nixosConfigurations = {
+        thinks = mkHost [
+          ./hosts/thinks/configuration.nix
+          ./modules/stefan.nix
 
-        modules = modules ++ [{ nixpkgs.config.allowUnfree = true; }];
+          ./modules/home-manager.nix
+          ./modules/nur.nix
+        ];
+
+        wsl = mkHost [
+          nixos-wsl.nixosModules.default
+
+          ./hosts/wsl/configuration.nix
+          ./modules/stefan-wsl.nix
+
+          ./modules/home-manager.nix
+          ./modules/nur.nix
+        ];
       };
-  in
-  {
-    nixosConfigurations = {
-      thinks = mkHost [
-        ./hosts/thinks/configuration.nix
-        ./modules/stefan.nix
-
-        ./modules/home-manager.nix
-        ./modules/nur.nix
-      ];
-
-      wsl = mkHost [
-        nixos-wsl.nixosModules.default
-
-	      ./hosts/wsl/configuration.nix
-        ./modules/stefan-wsl.nix
-
-        ./modules/home-manager.nix
-        ./modules/nur.nix
-      ];
     };
-  };
 }

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Format and stage changed Nix files
+files=$(git diff --cached --name-only --diff-filter=ACMR -- '*.nix')
+
+if [ -n "$files" ]; then
+  while IFS= read -r file; do
+    [ -f "$file" ] || continue
+    nixfmt "$file"
+    git add -- "$file"
+  done <<< "$files"
+fi
+
+# Build and activate NixOS configuration
+if [ -n "$files" ]; then
+  sudo nixos-rebuild switch --flake ".#${HOSTNAME:?HOSTNAME is not set}"
+fi

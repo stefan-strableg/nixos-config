@@ -3,6 +3,8 @@ set -euo pipefail
 
 # Intended to be run once after pulling the repo.
 
+git config core.hooksPath .githooks
+
 REPO_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_DIR"
 
@@ -55,9 +57,30 @@ fi
 sudo nixos-rebuild switch --flake "$REPO_DIR#$NEW_HOSTNAME"
 
 # Set up Tailscale.
-read -r -p "Log into Tailscale now? [y/N] " answer
-if [[ "$answer" =~ ^[Yy]$ ]]; then
-    sudo tailscale up --accept-routes
+if command -v tailscale >/dev/null; then
+  read -r -p "Log into Tailscale now? [y/N] " answer
+  if [[ "$answer" =~ ^[Yy]$ ]]; then
+      sudo tailscale up --accept-routes
+  fi
 fi
 
-echo "Setup complete."
+# Set up GNOME accounts.
+if command -v gnome-control-center >/dev/null; then
+  read -r -p "Set up GNOME Accounts? [y/N] " answer
+  if [[ "$answer" =~ ^[Yy]$ ]]; then
+  echo "Close the window when you are done..."
+    sleep 1
+    gnome-control-center online-accounts >/dev/null 2>&1
+  fi
+fi
+
+echo -n "User: "
+id
+echo -n "Hostname: "
+echo "$HOSTNAME"
+
+# Reboot
+read -r -p "Setup complete. Reboot? [Y/n] " answer
+if [[ ! "$answer" =~ ^[Nn]$ ]]; then
+  sudo reboot
+fi

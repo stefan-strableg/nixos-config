@@ -14,7 +14,7 @@
 
   # Fix KeePassXC launching in background on gnome
   home.packages = [
-    qgnomeplatform 
+    qgnomeplatform
   ];
   xdg.desktopEntries."org.keepassxc.KeePassXC" = {
     name = "KeePassXC";

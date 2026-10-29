@@ -12,19 +12,28 @@
         secrets = {
           id = "secrets";
           enable = true;
-          devices = [ "homes" "s24s" ];
+          devices = [
+            "homes"
+            "s24s"
+          ];
           path = "~/secrets";
         };
         obsidian-vault = {
           id = "obsidian-vault";
           enable = true;
-          devices = [ "homes" "s24s" ];
+          devices = [
+            "homes"
+            "s24s"
+          ];
           path = "~/obsidian-vault";
         };
         working-directory = {
           id = "working-directory";
           enable = true;
-          devices = [ "homes" "s24s" ];
+          devices = [
+            "homes"
+            "s24s"
+          ];
           path = "~/working-directory";
         };
       };

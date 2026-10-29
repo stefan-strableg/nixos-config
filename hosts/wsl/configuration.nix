@@ -5,10 +5,15 @@
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  imports = [];
+  imports = [ ];
 
   wsl.enable = true;
   wsl.defaultUser = "stefan";

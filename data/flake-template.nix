@@ -5,7 +5,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, nixpkgs }:
+  outputs =
+    { self, nixpkgs }:
     let
       system = "x86_64-linux";
       # To Allow Unfree Packages:
@@ -15,10 +16,13 @@
       };
       # To Install VSCode with Extensions:
       vscode = pkgs.vscode-with-extensions.override {
-          vscodeExtensions = with pkgs.vscode-extensions; [
+        vscodeExtensions =
+          with pkgs.vscode-extensions;
+          [
             # Officially Packaged Extensions from Nixpkgs:
             vscjava.vscode-java-pack
-          ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+          ]
+          ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
             # Custom packaged extensions from the VSCode Marketplace:
             {
               publisher = "vmware";
@@ -33,7 +37,7 @@
               sha256 = "sha256-Vad2Jl0LqyzcaTq+VsLtuu55qlgNApFDYkrdSzSa94I=";
             }
           ];
-        };
+      };
       # To Wrap Clangd to Use GCC as a Query Driver:
       # (Required for using Clangd with Projects that use GCC)
       gccClangdWrapper = pkgs.writeShellScriptBin "clangd" ''
@@ -49,7 +53,8 @@
         ps.streamlit
         ps.tqdm
       ]);
-    in {
+    in
+    {
       devShells.${system}.default = pkgs.mkShell {
         name = "dev-shell";
 
