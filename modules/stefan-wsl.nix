@@ -3,17 +3,12 @@
 {
   imports = [
     ./stefan/user.nix
+    ./stefan/base.nix
+    ./stefan/packages.nix
+    ./stefan/development/cpp.nix
+    ./stefan/programs/git.nix
+    ./stefan/programs/vscode.nix
+    ./stefan/programs/ssh.nix
+    ./stefan/services/syncthing.nix
   ];
-
-  home-manager.users.stefan = {
-    imports = [
-      ./stefan/home/base.nix
-      ./stefan/home/packages.nix
-      ./stefan/home/development/cpp.nix
-      ./stefan/home/programs/git.nix
-      ./stefan/home/programs/vscode.nix
-      ./stefan/home/programs/ssh.nix
-      ./stefan/home/services/syncthing.nix
-    ];
-  };
 }
