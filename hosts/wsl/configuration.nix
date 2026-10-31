@@ -6,31 +6,33 @@
 # https://github.com/nix-community/NixOS-WSL
 
 {
-  config,
-  lib,
   pkgs,
   ...
 }:
 
 {
-  imports = [ ];
+  wsl = {
+    enable = true;
+    defaultUser = "stefan";
 
-  wsl.enable = true;
-  wsl.defaultUser = "stefan";
-
-  wsl.ssh-agent.enable = true;
+    ssh-agent.enable = true;
+    interop = {
+      includePath = true;
+      register = true;
+    };
+  };
 
   programs.nix-ld.enable = true;
 
   environment.systemPackages = with pkgs; [
-    wget
+    wget # For VSCode remote
   ];
 
   networking.hostName = "wsl";
-  networking.wireless.enable = lib.mkForce false;
-  networking.networkmanager.enable = lib.mkForce false;
+  # networking.wireless.enable = lib.mkForce false;
+  # networking.networkmanager.enable = lib.mkForce false;
 
-  systemd.services."getty@tty1".enable = false;
+  # systemd.services."getty@tty1".enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

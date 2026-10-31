@@ -19,6 +19,7 @@
       gti
       sl
       nixfmt
+      nixd
     ];
   };
 }

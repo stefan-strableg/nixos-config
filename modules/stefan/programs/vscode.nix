@@ -12,6 +12,15 @@
         userSettings = {
           "editor.inlayHints.enabled" = "off";
           "workbench.colorTheme" = "Dark Modern";
+          "nix.enableLanguageServer" = true;
+          "nix.serverPath" = "nixd";
+          # "nix.serverSettings" = {
+          #   "nixd" = {
+          #     "formatting" = {
+          #       "command" = ["nixfmt"];
+          #     };
+          #   };
+          # };
         };
         keybindings = [
           {
