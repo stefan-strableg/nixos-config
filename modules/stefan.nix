@@ -18,5 +18,6 @@
     ./stefan/programs/ssh.nix
     ./stefan/services/ssh-agent.nix
     ./stefan/services/syncthing.nix
+    ./stefan/programs/steam.nix
   ];
 }
