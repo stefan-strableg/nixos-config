@@ -18,5 +18,6 @@
         }
       }
     }
-  }
+  },
+  "cmake.sourceDirectory": "/home/stefan/nixos-config/deg"
 }

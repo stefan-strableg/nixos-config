@@ -16,7 +16,7 @@
       nxr = "sudo nixos-rebuild switch --flake ~/nixos-config#\$HOSTNAME";
       nxu = "nix flake update --flake ~/nixos-config";
       nxd = "nix develop";
-      nxc = "nix develop -c code .";
+      nxc = "nix develop -c nix develop .#vscode -c code .";
     };
   };
 }
