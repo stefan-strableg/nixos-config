@@ -8,6 +8,7 @@
     ./stefan/development/cpp.nix
     ./stefan/programs/git.nix
     ./stefan/programs/ssh.nix
+    ./stefan/programs/docker.nix
     ./stefan/services/syncthing.nix
   ];
 }
