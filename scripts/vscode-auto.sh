@@ -1,17 +1,23 @@
 #!/usr/bin/env bash
 
 if [[ -f flake.nix ]]; then
-    if grep -qi microsoft /proc/version 2>/dev/null; then
-        echo "[WSL] Opening VS Code inside nix develop"
-        nix develop -c code .
+    echo -en ">> Checking flake...\r"
+    if nix eval .#vscode.drvPath &>/dev/null; then
+        if grep -qi microsoft /proc/version 2>/dev/null; then
+            echo ">> Flake.nix with vscode target detected. WSL detected. The flake's vscode is ignored. Opening windows VSCode in flake environment."
+            nix develop -c code .
+        else
+            echo ">> Flake.nix with vscode target detected. Opening flake's vscode in flake environment."
+            nix develop .#vscode -c code .
+        fi
     else
-        echo "[Nix] Opening VS Code with vscode dev shell"
-        nix develop -c nix develop .#vscode -c code .
+        echo ">> Flake.nix detected. Opening VSCode in flake environment."
+        nix develop -c code .
     fi
 elif [[ -d .devcontainer ]]; then
-    echo "[Devcontainer] Opening VS Code with devcontainer"
+    echo ">> Devcontainer detected. Opening VSCode. Please manually open the Devcontainer."
     code .
 else
-    echo "[Default] Opening VS Code"
+    echo ">> Opening VSCode."
     code .
 fi

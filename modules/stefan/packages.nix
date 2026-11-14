@@ -20,6 +20,8 @@
       sl
       nixfmt
       nixd
+      devcontainer
+      xxd
     ];
   };
 }
