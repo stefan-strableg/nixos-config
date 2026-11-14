@@ -1,6 +1,12 @@
-{ ... }:
+{ lib, ... }:
 
 {
+
+  environment.variables = {
+    NXCONFIG = lib.mkDefault (toString /home/stefan/nixos-config);
+    NXCONFIG_STORE = toString ../..;
+  };
+
   home-manager.users.stefan = {
     home.username = "stefan";
     home.homeDirectory = "/home/stefan";
@@ -13,10 +19,11 @@
 
     programs.bash.enable = true;
     home.shellAliases = {
-      nxr = "sudo nixos-rebuild switch --flake ~/nixos-config#\$HOSTNAME";
-      nxu = "nix flake update --flake ~/nixos-config";
+      nxr = "sudo nixos-rebuild switch --flake \$NXCONFIG#\$HOSTNAME";
+      nxu = "nix flake update --flake \$NXCONFIG";
       nxd = "nix develop";
-      nxc = "nix develop -c nix develop .#vscode -c code .";
+      nxc = "bash \$NXCONFIG_STORE/scripts/vscode-auto.sh";
+      nxe = "code \$NXCONFIG";
     };
   };
 }

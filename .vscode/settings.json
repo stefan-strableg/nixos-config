@@ -4,20 +4,20 @@
   "nix.serverSettings": {
     "nixd": {
       "nixpkgs": {
-        "expr": "import (builtins.getFlake \"/home/stefan/nixos\").inputs.nixpkgs { }"
+        "expr": "import (builtins.getFlake \"${workspaceFolder}\").inputs.nixpkgs { }"
       },
       "formatting": {
         "command": ["nixfmt"]
       },
       "options": {
         "nixos": {
-          "expr": "(builtins.getFlake \"/home/stefan/nixos\").nixosConfigurations.wsl.options"
+          "expr": "(builtins.getFlake \"${workspaceFolder}\").nixosConfigurations.wsl.options"
         },
         "home-manager": {
-          "expr": "(builtins.getFlake \"/home/stefan/nixos\").nixosConfigurations.my-host.options.home-manager.users.type.getSubOptions []"
+          "expr": "(builtins.getFlake \"${workspaceFolder}\").nixosConfigurations.my-host.options.home-manager.users.type.getSubOptions []"
         }
       }
     }
   },
-  "cmake.sourceDirectory": "/home/stefan/nixos-config/deg"
+  "cmake.sourceDirectory": "${workspaceFolder}/deg"
 }
