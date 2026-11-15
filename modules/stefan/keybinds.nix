@@ -17,7 +17,7 @@
 
       "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/nix-config" = {
         name = "Open NixOS Config Folder in VSCode";
-        command = "code \$NXCONFIG";
+        command = "sh -c 'exec code \"$NXCONFIG\"'";
         binding = "<Super>x";
       };
 
